@@ -1,26 +1,24 @@
 #
-# Ubuntu Dockerfile
+# CentOS Dockerfile
 #
-# https://github.com/dockerfile/ubuntu
+# https://github.com/ossianpe/docker-build-centos
+#
+# Run with:
+#    docker build -t="dockerfile/centos" .
 #
 
 # Pull base image.
-FROM ubuntu:14.04
+FROM centos:6.6
 
 # Install.
 RUN \
-  sed -i 's/# \(.*multiverse$\)/\1/g' /etc/apt/sources.list && \
-  apt-get update && \
-  apt-get -y upgrade && \
-  apt-get install -y build-essential && \
-  apt-get install -y software-properties-common && \
-  apt-get install -y byobu curl git htop man unzip vim wget && \
-  rm -rf /var/lib/apt/lists/*
+  yum install -y make automake gcc gcc-c++ kernel-devel && \
+  yum install -y byobu curl git htop man unzip vim wget
 
 # Add files.
-ADD root/.bashrc /root/.bashrc
-ADD root/.gitconfig /root/.gitconfig
-ADD root/.scripts /root/.scripts
+ADD ./root/.bashrc /root/.bashrc
+ADD ./root/.gitconfig /root/.gitconfig
+ADD ./root/.scripts /root/.scripts
 
 # Set environment variables.
 ENV HOME /root
